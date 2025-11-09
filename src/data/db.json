@@ -3,7 +3,7 @@
     {
       "id": 1,
       "title": "Buy groceries",
-      "completed": false
+      "completed": true
     },
     {
       "id": 2,
@@ -13,6 +13,16 @@
     {
       "id": 3,
       "title": "Read a book",
+      "completed": false
+    },
+    {
+      "id": 0.622003431771201,
+      "title": "go to school",
+      "completed": false
+    },
+    {
+      "id": 0.0019453390503506585,
+      "title": "read one chapter",
       "completed": false
     }
   ]

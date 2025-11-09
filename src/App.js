@@ -15,11 +15,23 @@ function App() {
       .then((response) => response.json())
       .then((todos) => setTodos(todos));
   }, []);
+
+  let addTodo = (todo) => {
+    fetch("http://localhost:3001/todos", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(todo),
+    });
+    setTodos((previousState) => [...previousState, todo]);
+  };
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
-        <TodoForm />
+        <TodoForm addTodo={addTodo} />
         <TodoLists todos={todos} />
         <CheckAllAndRemaining />
         <div className="other-buttons-container">
