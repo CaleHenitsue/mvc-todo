@@ -1,12 +1,13 @@
 import React from "react";
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 export default function TodoForm({ addTodo }) {
   let [title, setTitle] = useState("");
   let handleSubmit = (e) => {
     e.preventDefault();
     let todo = {
-      id: Math.random(),
+      id: uuidv4(),
       title: title,
       completed: false,
     };
