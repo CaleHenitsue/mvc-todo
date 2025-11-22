@@ -15,10 +15,22 @@ export default function Todo({ todo, deleteTodo, updatedTodo }) {
     updatedTodo(updatedTodoItem);
     setIsEditing(false);
   };
+  let handleCheck = () => {
+    let updatedTodoItem = {
+      id: todo.id,
+      title: todo.title,
+      completed: !todo.completed,
+    };
+    updatedTodo(updatedTodoItem);
+  };
   return (
     <li className="todo-item-container">
       <div className="todo-item">
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={handleCheck}
+        />
         {!isEditing && (
           <span
             onDoubleClick={() => setIsEditing(true)}
