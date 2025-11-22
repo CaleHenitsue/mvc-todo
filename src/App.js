@@ -48,6 +48,35 @@ function App() {
       )
     );
   };
+  let remainingCount = todos.filter((todo) => !todo.completed).length;
+  let checkAll = () => {
+    let allCompleted = todos.every((todo) => todo.completed);
+    let updatedTodos = todos.map((todo) => ({
+      ...todo,
+      completed: !allCompleted,
+    }));
+    updatedTodos.forEach((todo) => {
+      fetch(`http://localhost:3001/todos/${todo.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(todo),
+      });
+    });
+    setTodos(updatedTodos);
+  };
+  let clearCompleted = () => {
+    let completedTodos = todos.filter((todo) => todo.completed);
+    completedTodos.forEach((todo) => {
+      fetch(`http://localhost:3001/todos/${todo.id}`, {
+        method: "DELETE",
+      });
+    });
+    setTodos((previousState) =>
+      previousState.filter((todo) => !todo.completed)
+    );
+  };
 
   return (
     <div className="todo-app-container">
@@ -59,10 +88,13 @@ function App() {
           deleteTodo={deleteTodo}
           updatedTodo={updatedTodo}
         />
-        <CheckAllAndRemaining />
+        <CheckAllAndRemaining
+          remainingCount={remainingCount}
+          checkAll={checkAll}
+        />
         <div className="other-buttons-container">
           <TodoFilters />
-          <ClearCompletedbtn />
+          <ClearCompletedbtn clearCompleted={clearCompleted} />
         </div>
       </div>
     </div>
