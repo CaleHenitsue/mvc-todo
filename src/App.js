@@ -34,12 +34,31 @@ function App() {
     setTodos((previousState) => previousState.filter((t) => t.id !== todo.id));
   };
 
+  let updatedTodo = (updatedTodo) => {
+    fetch(`http://localhost:3001/todos/${updatedTodo.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedTodo),
+    });
+    setTodos((previousState) =>
+      previousState.map((todo) =>
+        todo.id === updatedTodo.id ? updatedTodo : todo
+      )
+    );
+  };
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
         <TodoForm addTodo={addTodo} />
-        <TodoLists todos={todos} deleteTodo={deleteTodo} />
+        <TodoLists
+          todos={todos}
+          deleteTodo={deleteTodo}
+          updatedTodo={updatedTodo}
+        />
         <CheckAllAndRemaining />
         <div className="other-buttons-container">
           <TodoFilters />
