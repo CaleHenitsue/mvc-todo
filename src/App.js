@@ -9,12 +9,27 @@ import { useEffect, useState } from "react";
 
 function App() {
   let [todos, setTodos] = useState([]);
+  let [filter, setFilter] = useState("All"); // Add a filter state
 
   useEffect(() => {
     fetch("http://localhost:3001/todos")
       .then((response) => response.json())
-      .then((todos) => setTodos(todos));
+      .then((todos) => {
+        setTodos(todos);
+      });
   }, []);
+
+  // Derive filtered todos dynamically based on the filter state
+  let filteredTodos = todos.filter((todo) => {
+    if (filter === "All") return true;
+    if (filter === "Active") return !todo.completed;
+    if (filter === "Completed") return todo.completed;
+    return true;
+  });
+
+  let filterBy = (filter) => {
+    setFilter(filter); // Update the filter state
+  };
 
   let addTodo = (todo) => {
     fetch("http://localhost:3001/todos", {
@@ -48,7 +63,9 @@ function App() {
       )
     );
   };
+
   let remainingCount = todos.filter((todo) => !todo.completed).length;
+
   let checkAll = () => {
     let allCompleted = todos.every((todo) => todo.completed);
     let updatedTodos = todos.map((todo) => ({
@@ -66,6 +83,7 @@ function App() {
     });
     setTodos(updatedTodos);
   };
+
   let clearCompleted = () => {
     let completedTodos = todos.filter((todo) => todo.completed);
     completedTodos.forEach((todo) => {
@@ -84,7 +102,7 @@ function App() {
         <h2>Todo App</h2>
         <TodoForm addTodo={addTodo} />
         <TodoLists
-          todos={todos}
+          todos={filteredTodos} // Use dynamically filtered todos
           deleteTodo={deleteTodo}
           updatedTodo={updatedTodo}
         />
@@ -93,7 +111,7 @@ function App() {
           checkAll={checkAll}
         />
         <div className="other-buttons-container">
-          <TodoFilters />
+          <TodoFilters filterBy={filterBy} />
           <ClearCompletedbtn clearCompleted={clearCompleted} />
         </div>
       </div>
