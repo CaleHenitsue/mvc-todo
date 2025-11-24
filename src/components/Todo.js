@@ -1,5 +1,4 @@
 import React from "react";
-import TodoLists from "./TodoLists";
 
 export default function Todo({ todo, deleteTodo, updatedTodo }) {
   let [isEditing, setIsEditing] = React.useState(false);

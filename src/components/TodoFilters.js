@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { use } from "react";
 
 export default function TodoFilters({ filterBy }) {
   let [filter, setFilter] = React.useState("All");
